@@ -6,5 +6,5 @@ export interface IResponse {
   message: string;
   status: ENUM_RESPONSE_STATUS;
   type: ENUM_REQUEST_TYPE;
-  data?: string | IOperation[];
+  data?: number | IOperation[];
 }

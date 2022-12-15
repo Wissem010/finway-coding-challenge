@@ -21,25 +21,11 @@ export class ServerSocket {
         origin: "*",
       },
     });
-
     this.io.on("connect", this.StartListeners);
   }
 
   StartListeners = (socket: Socket) => {
     console.info("Message received from " + socket.id);
-
-    socket.on(ENUM_EVENT_NAME.ONBOARDING, async () => {
-      console.log(socket.id, "here");
-      this.SendMessage({
-        eventName: ENUM_EVENT_NAME.SOCKET_CONNECTED,
-        socketId: socket.id,
-        payload: {
-          message: "onboarding happened to : " + socket.id,
-          status: ENUM_RESPONSE_STATUS.CONNECTION_ESTABLISHED_STATUS,
-          type: ENUM_REQUEST_TYPE.ONBOARDING,
-        },
-      });
-    });
 
     socket.on(ENUM_EVENT_NAME.CALCULATE, async (operation: string) => {
       if (operation.toLowerCase() === "history") {
@@ -57,23 +43,32 @@ export class ServerSocket {
         return;
       }
 
-      const result: string | undefined = await calculate({
-        operationString: operation,
-        socketId: socket.id,
-      });
-
-      this.SendMessage({
-        eventName: ENUM_EVENT_NAME.RESULT,
-        socketId: socket.id,
-        payload: {
-          message: "sending result to : " + socket.id,
-          status: result
-            ? ENUM_RESPONSE_STATUS.OPERATION_SUCCESS_STATUS
-            : ENUM_RESPONSE_STATUS.OPERATION_UNVALID_STATUS,
-          type: ENUM_REQUEST_TYPE.CALCULATE,
-          data: result,
-        },
-      });
+      try {
+        const result = await calculate({
+          operationString: operation,
+          socketId: socket.id,
+        });
+        this.SendMessage({
+          eventName: ENUM_EVENT_NAME.RESULT,
+          socketId: socket.id,
+          payload: {
+            message: "sending result to : " + socket.id,
+            status: ENUM_RESPONSE_STATUS.OPERATION_SUCCESS_STATUS,
+            type: ENUM_REQUEST_TYPE.CALCULATE,
+            data: result,
+          },
+        });
+      } catch (e: any) {
+        this.SendMessage({
+          eventName: ENUM_EVENT_NAME.RESULT,
+          socketId: socket.id,
+          payload: {
+            message: e,
+            status: ENUM_RESPONSE_STATUS.OPERATION_UNVALID_STATUS,
+            type: ENUM_REQUEST_TYPE.CALCULATE,
+          },
+        });
+      }
     });
 
     socket.on(ENUM_EVENT_NAME.SOCKET_DISCONNECTED, () => {
