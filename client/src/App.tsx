@@ -1,36 +1,34 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { BLUE } from "./utils/Strings";
-import Calculation from "./components/commands/Calculation";
-import Result from "./components/results/Result";
+import CommandComponent from "./components/commands/CommandComponent";
 
 function App() {
   return (
-    <div>
+    <>
       <Navbar />
-      <div
-        style={{
-          backgroundColor: BLUE,
-          height: "100vh",
-          padding: 20,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginTop: 100,
-          }}
-        >
-          <Calculation />
-          <Result />
+      <div style={styles.container}>
+   
+        <div style={{ ...styles.commandContainer, flexDirection: "column" }}>
+          <CommandComponent />
         </div>
       </div>
-    </div>
+    </>
   );
 }
+
+const styles = {
+  container: {
+    backgroundColor: BLUE,
+    height: "100vh",
+    padding: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
+  commandContainer: {
+    display: "flex",
+  },
+};
 
 export default App;

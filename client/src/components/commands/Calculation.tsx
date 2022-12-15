@@ -1,11 +1,16 @@
-import React, { useContext, useState } from "react";
+import { useState } from "react";
 import { TextField, Button } from "@mui/material";
-import SocketContext from "../../contexts/SocketContext";
 import { RESET, SEND } from "../../utils/Strings";
+import { ISocketContextState } from "../../utils/types";
 
-export default function Calculation() {
-  const { socket } = useContext(SocketContext).SocketState;
+const Calculation: React.FunctionComponent<{ props: ISocketContextState }> = ({
+  props,
+}) => {
+  const { socket } = props;
 
+  /**
+   * State of the textInput
+   */
   const [value, setValue] = useState("");
   function handleChange(e: any) {
     setValue(e.target.value);
@@ -44,7 +49,7 @@ export default function Calculation() {
       </Button>
     </div>
   );
-}
+};
 
 const styles = {
   container: {
@@ -63,3 +68,4 @@ const styles = {
     width: 120,
   },
 };
+export default Calculation;

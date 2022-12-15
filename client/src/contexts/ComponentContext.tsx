@@ -10,14 +10,15 @@ import {
   SocketContextProvider,
   SocketReducer,
 } from "./SocketContext";
-
 export interface ISocketContextComponentProps extends PropsWithChildren {}
 
+/** Wraps a component to make give it SocketContext */
 const SocketContextComponent: React.FunctionComponent<
   ISocketContextComponentProps
 > = (props) => {
   const { children } = props;
 
+  /** socket setup */
   const socket = useSocket("ws://localhost:1337", {
     reconnectionAttempts: 5,
     reconnectionDelay: 1000,
@@ -28,7 +29,7 @@ const SocketContextComponent: React.FunctionComponent<
     SocketReducer,
     defaultSocketContextState
   );
-
+  /** Starting socket connection and listeners */
   useEffect(() => {
     socket.connect();
     SocketDispatch({ type: UPDATE_SOCKET, payload: socket });
@@ -37,7 +38,7 @@ const SocketContextComponent: React.FunctionComponent<
   }, []);
 
   const StartListeners = () => {
-    console.log("listener start");
+    console.info("listener start");
     socket.on(SOCKET_DISCONNECTED, () => {
       console.info("User disconnected message received");
       SocketDispatch({ type: SOCKET_DISCONNECTED });

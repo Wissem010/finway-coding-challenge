@@ -1,12 +1,12 @@
 import { createContext } from "react";
 import { Socket } from "socket.io-client";
+import { setCalculateReducerData } from "../utils/reducer";
 import {
   CALCULATE,
   SOCKET_DISCONNECTED,
   UPDATE_SOCKET,
 } from "../utils/Strings";
 import {
-  IHistory,
   ISocketContextActions,
   ISocketContextProps,
   ISocketContextState,
@@ -16,6 +16,8 @@ export const defaultSocketContextState: ISocketContextState = {
   socket: undefined,
   operationResult: "",
   history: [],
+  error: false,
+  errorMessage: "",
 };
 
 export const SocketReducer = (
@@ -31,7 +33,7 @@ export const SocketReducer = (
     case UPDATE_SOCKET:
       return { ...state, socket: action.payload as Socket };
     case CALCULATE:
-      return { ...state, history: action.payload as IHistory[] };
+      return setCalculateReducerData(state, action.payload);
     case SOCKET_DISCONNECTED:
       return { ...state, socket: undefined };
     default:

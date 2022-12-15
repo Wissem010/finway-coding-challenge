@@ -12,9 +12,14 @@ export interface ISocketContextState {
   socket: Socket | undefined;
   history: IHistory[];
   operationResult: string;
+  error: boolean;
+  errorMessage: string;
 }
-export type TSocketContextPayload = string | IHistory[] | Socket;
-export type TSocketContextActions = UPDATE_SOCKET | CALCULATE | SOCKET_DISCONNECTED;
+export type TSocketContextPayload = string | Socket;
+export type TSocketContextActions =
+  | UPDATE_SOCKET
+  | CALCULATE
+  | SOCKET_DISCONNECTED;
 
 export interface ISocketContextActions {
   type: TSocketContextActions;
