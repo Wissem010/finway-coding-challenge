@@ -19,18 +19,6 @@ class ServerSocket {
     constructor(server) {
         this.StartListeners = (socket) => {
             console.info("Message received from " + socket.id);
-            socket.on(event_enum_1.ENUM_EVENT_NAME.ONBOARDING, () => __awaiter(this, void 0, void 0, function* () {
-                console.log(socket.id, "here");
-                this.SendMessage({
-                    eventName: event_enum_1.ENUM_EVENT_NAME.SOCKET_CONNECTED,
-                    socketId: socket.id,
-                    payload: {
-                        message: "onboarding happened to : " + socket.id,
-                        status: response_status_enum_1.ENUM_RESPONSE_STATUS.CONNECTION_ESTABLISHED_STATUS,
-                        type: request_type_enum_1.ENUM_REQUEST_TYPE.ONBOARDING,
-                    },
-                });
-            }));
             socket.on(event_enum_1.ENUM_EVENT_NAME.CALCULATE, (operation) => __awaiter(this, void 0, void 0, function* () {
                 if (operation.toLowerCase() === "history") {
                     const data = socket.id ? yield (0, operation_service_1.findHistory)(socket.id) : [];
@@ -46,22 +34,33 @@ class ServerSocket {
                     });
                     return;
                 }
-                const result = yield (0, operation_service_1.calculate)({
-                    operationString: operation,
-                    socketId: socket.id,
-                });
-                this.SendMessage({
-                    eventName: event_enum_1.ENUM_EVENT_NAME.RESULT,
-                    socketId: socket.id,
-                    payload: {
-                        message: "sending result to : " + socket.id,
-                        status: result
-                            ? response_status_enum_1.ENUM_RESPONSE_STATUS.OPERATION_SUCCESS_STATUS
-                            : response_status_enum_1.ENUM_RESPONSE_STATUS.OPERATION_UNVALID_STATUS,
-                        type: request_type_enum_1.ENUM_REQUEST_TYPE.CALCULATE,
-                        data: result,
-                    },
-                });
+                try {
+                    const result = yield (0, operation_service_1.calculate)({
+                        operationString: operation,
+                        socketId: socket.id,
+                    });
+                    this.SendMessage({
+                        eventName: event_enum_1.ENUM_EVENT_NAME.RESULT,
+                        socketId: socket.id,
+                        payload: {
+                            message: "sending result to : " + socket.id,
+                            status: response_status_enum_1.ENUM_RESPONSE_STATUS.OPERATION_SUCCESS_STATUS,
+                            type: request_type_enum_1.ENUM_REQUEST_TYPE.CALCULATE,
+                            data: result,
+                        },
+                    });
+                }
+                catch (e) {
+                    this.SendMessage({
+                        eventName: event_enum_1.ENUM_EVENT_NAME.RESULT,
+                        socketId: socket.id,
+                        payload: {
+                            message: e,
+                            status: response_status_enum_1.ENUM_RESPONSE_STATUS.OPERATION_UNVALID_STATUS,
+                            type: request_type_enum_1.ENUM_REQUEST_TYPE.CALCULATE,
+                        },
+                    });
+                }
             }));
             socket.on(event_enum_1.ENUM_EVENT_NAME.SOCKET_DISCONNECTED, () => {
                 console.info("Disconnect received from: " + socket.id);

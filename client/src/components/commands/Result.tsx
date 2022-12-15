@@ -30,7 +30,9 @@ const Result: React.FunctionComponent<{ props: ISocketContextState }> = ({
           <div>
             <p>Result :</p>
             <Stack spacing={1}>
-              <Item>{operationResult}</Item>
+              <Item>
+                <strong>{operationResult}</strong>
+              </Item>
             </Stack>
           </div>
         )}

@@ -10,12 +10,12 @@ export interface IHistory {
 }
 export interface ISocketContextState {
   socket: Socket | undefined;
-  history: IHistory[];
+  history: any;
   operationResult: string;
   error: boolean;
   errorMessage: string;
 }
-export type TSocketContextPayload = string | Socket;
+export type TSocketContextPayload = any | string | Socket;
 export type TSocketContextActions =
   | UPDATE_SOCKET
   | CALCULATE
