@@ -49,3 +49,5 @@ application.use((req, res, next) => {
 
 /** Listen */
 httpServer.listen(port, () => console.info(`Server is running`));
+
+export default application

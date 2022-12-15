@@ -42,7 +42,6 @@ export class ServerSocket {
         });
         return;
       }
-
       try {
         const result = await calculate({
           operationString: operation,
@@ -78,7 +77,6 @@ export class ServerSocket {
 
   SendMessage = ({ eventName, payload, socketId }: IMessage) => {
     console.info("Emitting event: " + eventName + " to", socketId, payload);
-
     payload
       ? this.io.to(socketId).emit(eventName, payload)
       : this.io.to(socketId).emit(eventName);
