@@ -8,7 +8,7 @@ export default function CommandComponent() {
   const props = useContext(SocketContext).SocketState;
   return (
     <>
-    <Guide/>
+      <Guide />
       <Calculation props={props} />
       <Result props={props} />
     </>

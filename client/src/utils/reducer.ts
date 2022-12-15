@@ -18,7 +18,6 @@ export const setCalculateReducerData = (state: any, payload: any) => {
       };
     case 2000:
       if (payload.type === HISTORY_EVENT_TYPE) {
-        console.log(payload, "histtt");
         if (payload.data.length === 0) {
           return { ...state, error: true, errorMessage: EMPTY_HISTORY };
         }

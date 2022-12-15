@@ -8,7 +8,6 @@ function App() {
     <>
       <Navbar />
       <div style={styles.container}>
-   
         <div style={{ ...styles.commandContainer, flexDirection: "column" }}>
           <CommandComponent />
         </div>

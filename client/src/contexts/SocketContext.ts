@@ -33,7 +33,6 @@ export const SocketReducer = (
     case UPDATE_SOCKET:
       return { ...state, socket: action.payload as Socket };
     case CALCULATE:
-      console.log(state, "==>");
       return setCalculateReducerData(state, action.payload);
     case SOCKET_DISCONNECTED:
       return { ...state, socket: undefined };
