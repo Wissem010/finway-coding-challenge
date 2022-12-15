@@ -11,7 +11,7 @@ npm run dev
 ## Running server tests
 ```
 npm run test
-npm run test --coverage for test coverage
+npx jest --coverage for test coverage
 ```
 ## Running the client
 ```
@@ -22,5 +22,5 @@ npm run start
 ## Running client tests
 ```
 npm run test
-npm run test --coverage for test coverage
+npx jest --coverage for test coverage
 ```
