@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Navbar from "./components/Navbar";
+import { BLUE } from "./utils/Strings";
+import Calculation from "./components/commands/Calculation";
+import Result from "./components/results/Result";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+      <Navbar />
+      <div
+        style={{
+          backgroundColor: BLUE,
+          height: "100vh",
+          padding: 20,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: 100,
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <Calculation />
+          <Result />
+        </div>
+      </div>
     </div>
   );
 }
